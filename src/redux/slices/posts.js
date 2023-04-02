@@ -7,7 +7,7 @@ const initialState = {
   },
   tags: {
     item: [],
-    status: "loading",
+    status: "loading", 
   },
 };
 
