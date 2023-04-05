@@ -1,13 +1,16 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
+import { fetchAuth } from "../../redux/slices/auth";
 
 import styles from "./Login.module.scss";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -15,8 +18,8 @@ export const Login = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "nemo1@test.ru",
+      password: "123456",
     },
     // показывает ошибку при изменении поля
     mode: "onChange",
@@ -24,6 +27,7 @@ export const Login = () => {
 
   const onSubmit = (values) => {
     console.log(values);
+    dispatch(fetchAuth(values));
   };
 
   return (
