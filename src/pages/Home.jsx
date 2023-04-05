@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Grid from "@mui/material/Grid";
@@ -12,10 +12,13 @@ import { fetchPosts } from "../redux/slices/posts";
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const { posts, tags } = useSelector((state) => state.posts);
 
   React.useEffect(() => {
-    dispatch(fetchPosts())
+    dispatch(fetchPosts());
   }, []);
+
+  console.log(posts);
   return (
     <>
       <Tabs
