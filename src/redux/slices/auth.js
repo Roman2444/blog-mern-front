@@ -1,8 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
+// отправляем данные полученные при аваторизации, чтобы понять есть такой пользователь или нет
 export const fetchAuth = createAsyncThunk("auth/fetchAuth", async (params) => {
   const { data } = await axios.post("/auth/login", params);
+  return data;
+});
+
+// запрашиваем авторизован пользователь или нет
+export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
+  const { data } = await axios.get("/auth/me");
   return data;
 });
 
@@ -29,6 +36,18 @@ const authSlice = createSlice({
       state.data = action.payload;
     },
     [fetchAuth.rejected]: (state) => {
+      state.status = "error";
+      state.data = null;
+    },
+    [fetchAuthMe.pending]: (state) => {
+      state.status = "loading";
+      state.data = null;
+    },
+    [fetchAuthMe.fulfilled]: (state, action) => {
+      state.status = "loaded";
+      state.data = action.payload;
+    },
+    [fetchAuthMe.rejected]: (state) => {
       state.status = "error";
       state.data = null;
     },
