@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-// отправляем данные полученные при аваторизации, чтобы понять есть такой пользователь или нет
+// отправляем данные полученные при авторизации, чтобы понять есть такой пользователь или нет
 export const fetchAuth = createAsyncThunk("auth/fetchAuth", async (params) => {
   const { data } = await axios.post("/auth/login", params);
   return data;
