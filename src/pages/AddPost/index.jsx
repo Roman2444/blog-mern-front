@@ -13,10 +13,12 @@ import axios from "../../axios";
 export const AddPost = () => {
   const isAuth = useSelector(selectIsAuth);
 
-  const imageUrl = "";
+  const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
+  const [imageUrl, setImageUrl] = React.useState("");
+
   const inputFileRef = React.useRef();
 
   const handleChangeFile = async (event) => {
@@ -25,13 +27,15 @@ export const AddPost = () => {
       const file = event.target.files[0];
       formData.append("image", file);
       const { data } = await axios.post("/upload", formData);
-      console.log(data);
+      setImageUrl(data.url);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const onClickRemoveImage = () => {};
+  const onClickRemoveImage = () => {
+    setImageUrl("");
+  };
 
   const onChange = React.useCallback((value) => {
     setValue(value);
@@ -72,17 +76,22 @@ export const AddPost = () => {
         hidden
       />
       {imageUrl && (
-        <Button variant="contained" color="error" onClick={onClickRemoveImage}>
-          Удалить
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={onClickRemoveImage}
+          >
+            Удалить
+          </Button>
+          <img
+            className={styles.image}
+            src={`http://localhost:4444${imageUrl}`}
+            alt="Uploaded"
+          />
+        </>
       )}
-      {imageUrl && (
-        <img
-          className={styles.image}
-          src={`http://localhost:4444${imageUrl}`}
-          alt="Uploaded"
-        />
-      )}
+
       <br />
       <br />
       <TextField
